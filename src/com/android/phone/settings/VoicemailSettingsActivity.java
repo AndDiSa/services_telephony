@@ -36,6 +36,7 @@ import android.text.TextDirectionHeuristics;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ListAdapter;
 import com.android.internal.telephony.CallForwardInfo;
 import com.android.internal.telephony.Phone;
@@ -214,7 +215,16 @@ public class VoicemailSettingsActivity extends PreferenceActivity
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        getWindow().addPrivateFlags(
+                WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
 
+        // Make sure we are running as the primary user only
+        if (UserHandle.myUserId() != UserHandle.USER_OWNER) {
+           Toast.makeText(this, R.string.voice_number_setting_primary_user_only,
+                   Toast.LENGTH_SHORT).show();
+           finish();
+           return;
+        }
         // Show the voicemail preference in onResume if the calling intent specifies the
         // ACTION_ADD_VOICEMAIL action.
         mShowVoicemailPreference = (icicle == null) &&
