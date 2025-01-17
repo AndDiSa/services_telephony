@@ -18,6 +18,8 @@ package com.android.phone;
 
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
+import static android.view.WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS;
+
 
 import android.content.DialogInterface;
 import android.os.AsyncResult;
@@ -43,6 +45,8 @@ public class CdmaCallOptions extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+
+        getWindow().addPrivateFlags(PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
 
         addPreferencesFromResource(R.xml.cdma_call_privacy);
 
